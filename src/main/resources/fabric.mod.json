@@ -22,7 +22,7 @@
 			"neu.authopathermod.AutopatherModDataGenerator"
 		],
 		"client":[
-			"neu.autopathermod.AutopatherModClient"
+			"neu.authopathermod.AutopatherModClient"
 		]
 	},
 	"mixins": [
