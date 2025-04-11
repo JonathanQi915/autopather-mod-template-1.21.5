@@ -2,6 +2,7 @@ package neu.authopathermod;
 
 import net.fabricmc.api.ModInitializer;
 
+import neu.authopathermod.util.ModRegistries;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,5 +21,6 @@ public class AutopatherMod implements ModInitializer {
 		// Proceed with mild caution.
 
 		LOGGER.info("Hello Fabric world!");
+		ModRegistries.registerModStuffs();
 	}
 }
