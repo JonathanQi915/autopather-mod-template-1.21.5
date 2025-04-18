@@ -10,7 +10,7 @@ public class Node {
     public double h; 
 
     // A node is composed of a position, a parent, 
-    // a cost to start from, and a cost to reach.
+    // a cost to start from (the node), and a cost to reach (the node).
     public Node(BlockPos pos, Node parent, double g, double h) {
         this.pos = pos;
         this.parent = parent;
@@ -33,29 +33,34 @@ public class Node {
     // Calculates the movement cost of moving in a direction
     private static double getMovementCost(World world, BlockPos from, BlockPos to) {
     BlockState blockBelow = world.getBlockState(to.down());
-    BlockState blockAt = world.getBlockState(to);
+    BlockState blockAtFeet = world.getBlockState(to);
+    BlockState blockAtHead = world.getBlockState(to.up());
 
-    // Check the blocks the player is currently occupying in the world
-    if (blockAt.isAir() || blockAt.getMaterial().isReplaceable()) {
-        // Check the block below the player
-        // We do not want to go near lava
+    // Player must fit in the 2 block vertical space
+    if ((blockAtFeet.isAir() || blockAtFeet.getMaterial().isReplaceable()) &&
+        (blockAtHead.isAir() || blockAtHead.getMaterial().isReplaceable())) {
+        
+        // Now check surface conditions
+        // Lava should never be touched
         if (blockBelow.isOf(Blocks.LAVA)) return Double.POSITIVE_INFINITY;
-        // Water is discouraged as it will slow us down
+        
+        // Water is ok but slows you down a lot
         if (blockBelow.isOf(Blocks.WATER)) return 5;
-        // Ladders are fine but other paths are better
+        // Ladders are ok but slow you down
         if (blockBelow.isOf(Blocks.LADDER)) return 3;
-        // avoid soul sand
+        // Soul sand slows you down
         if (blockBelow.isOf(Blocks.SOUL_SAND)) return 4;
-        // avoid honey
+        // Honey slows you down a lot
         if (blockBelow.isOf(Blocks.HONEY_BLOCK)) return 6;
-        // ice is ok but worse than regular movemtn
+        // ice is slightly worse than regular walking
         if (blockBelow.isOf(Blocks.ICE)) return 2;
 
-        // Normal movement
-        return 1; 
-        }
-    return Double.POSITIVE_INFINITY;
+        return 1; // Normal cost
     }
+
+    return Double.POSITIVE_INFINITY; // Not enough space for the player
+}
+
 
     // gets a block's neighboring positions
     private static List<BlockPos> getNeighbors(BlockPos pos) {
