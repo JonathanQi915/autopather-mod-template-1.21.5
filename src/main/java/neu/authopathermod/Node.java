@@ -46,8 +46,8 @@ public class Node {
     BlockState blockAtHead = world.getBlockState(to.up());
 
     // Player must fit in the 2 block vertical space
-    if ((blockAtFeet.isAir() || blockAtFeet.getMaterial().isReplaceable()) &&
-        (blockAtHead.isAir() || blockAtHead.getMaterial().isReplaceable())) {
+    if ((blockAtFeet.isAir() || blockAtFeet.isReplaceable()) &&
+        (blockAtHead.isAir() || blockAtHead.isReplaceable())) {
         
         // Now check surface conditions
         // Lava should never be touched
