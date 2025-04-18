@@ -1,3 +1,12 @@
+package neu.authopathermod;
+
+import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+
+import java.util.*;
+
 // stores each block and its path information
 public class Node {
     // position of the block in the minecraft world
@@ -19,7 +28,7 @@ public class Node {
     }
 
     // Gets the manhatten distance between two blocks
-    private int getManhattenDistance(BlockPos a, BlockPos b) {
+    private static int getManhattenDistance(BlockPos a, BlockPos b) {
         return Math.abs(a.getX() - b.getX()) 
          + Math.abs(a.getY() - b.getY()) 
          + Math.abs(a.getZ() - b.getZ());
