@@ -2,6 +2,7 @@ package neu.authopathermod.command;
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.ServerCommandSource;
@@ -28,15 +29,24 @@ public class PathXYZ {
         double y = DoubleArgumentType.getDouble(context, "y");
         double z = DoubleArgumentType.getDouble(context, "z");
 
-        // Start movement using pathing system
-        Vec3d destination = new Vec3d(x, y, z);
-        PathControl.startPathing(destination);
+        // Client-side only: grab client player and world
+        MinecraftClient client = MinecraftClient.getInstance();
+        if (client.player != null && client.world != null) {
+            Vec3d destination = new Vec3d(x, y, z);
+            Vec3d current = client.player.getPos();
+
+            PathControl.startPathing(client.world, current, destination);
+        } else {
+            context.getSource().sendFeedback(() -> Text.literal("Client not ready"), false);
+            return 0;
+        }
 
         context.getSource().sendFeedback(() -> Text.literal("Walking to " + x + ", " + y + ", " + z), false);
         return 1;
     }
 
     private static int stop(CommandContext<ServerCommandSource> context) throws CommandSyntaxException {
+        MinecraftClient client = MinecraftClient.getInstance();
         PathControl.stopPathing();
         context.getSource().sendFeedback(() -> Text.literal("Stopping"), false);
         return 1;

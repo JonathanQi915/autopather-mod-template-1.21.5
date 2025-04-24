@@ -52,17 +52,24 @@ public class Node {
         // Now check surface conditions
         // Lava should never be touched
         if (blockBelow.isOf(Blocks.LAVA)) return Double.POSITIVE_INFINITY;
+        if (blockAtFeet.isOf(Blocks.LAVA)) return Double.POSITIVE_INFINITY;
+        if (blockAtHead.isOf(Blocks.LAVA)) return Double.POSITIVE_INFINITY;
         
         // Water is ok but slows you down a lot
         if (blockBelow.isOf(Blocks.WATER)) return 5;
+        if (blockAtFeet.isOf(Blocks.WATER)) return 5;
+        if (blockAtHead.isOf(Blocks.WATER)) return 5;
         // Ladders are ok but slow you down
-        if (blockBelow.isOf(Blocks.LADDER)) return 3;
+        if (blockAtFeet.isOf(Blocks.LADDER)) return 3;
         // Soul sand slows you down
         if (blockBelow.isOf(Blocks.SOUL_SAND)) return 4;
         // Honey slows you down a lot
         if (blockBelow.isOf(Blocks.HONEY_BLOCK)) return 6;
+        if (blockBelow.isOf(Blocks.SLIME_BLOCK)) return 6;
         // ice is slightly worse than regular walking
         if (blockBelow.isOf(Blocks.ICE)) return 2;
+        if (blockBelow.isOf(Blocks.BLUE_ICE)) return 2;
+        if (blockBelow.isOf(Blocks.PACKED_ICE)) return 2;
 
         return 1; // Normal cost
     }
@@ -127,6 +134,10 @@ public class Node {
             if (verticalDrop > 3) {
                 // Apply extra cost for big falls (e.g., 3 per extra block)
                 movementCost += (verticalDrop - 3) * 3;
+            }
+
+            if (verticalDrop == -1) {
+                movementCost += 1; // extra cost for climbing
             }
             
             // set a temporary g value by adding the current g value and the movement cost
