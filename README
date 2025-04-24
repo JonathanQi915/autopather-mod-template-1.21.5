@@ -1,0 +1,7 @@
+Run the program through intelliJ. You should be able to open up a minecraft client by running the minecraft client run file.
+Our program works in single player minecraft, create a new world and you are able to run 2 new commander
+/pathXYZ [X] [Y] [Z] 
+  This will run an A* algorithm to direct your player towards the given coordinates
+  It will show you the path via green particles and will update the player on the current subcoordinate the program is trying to get to
+/pathXYZ stop
+  This will stop the player from moving and stop the pathXYZ program from continuing.
