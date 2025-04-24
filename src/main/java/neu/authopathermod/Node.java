@@ -28,7 +28,7 @@ public class Node {
     }
 
     // Gets the manhatten distance between two blocks
-    private static int getManhattenDistance(BlockPos a, BlockPos b) {
+    private static double getManhattenDistance(BlockPos a, BlockPos b) {
         return Math.abs(a.getX() - b.getX()) 
          + Math.abs(a.getY() - b.getY()) 
          + Math.abs(a.getZ() - b.getZ());
